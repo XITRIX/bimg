@@ -29,6 +29,9 @@
 	#include <cstdio>
 #endif
 #include <cstdlib>
+#ifdef __SWITCH__
+	#include <malloc.h>
+#endif
 
 #include "astcenc.h"
 #include "astcenc_mathlib.h"
@@ -2143,6 +2146,8 @@ T* aligned_malloc(size_t size, size_t align)
 
 #if defined(_WIN32)
 	ptr = _aligned_malloc(size, align);
+#elif defined(__SWITCH__)
+    ptr = memalign(align, size);
 #else
 	error = posix_memalign(&ptr, align, size);
 #endif
